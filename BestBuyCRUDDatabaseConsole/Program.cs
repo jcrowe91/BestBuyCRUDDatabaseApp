@@ -21,14 +21,17 @@ namespace BestBuyCRUDDatabaseConsole
 
             var repo = new DepartmentRepository(conn);
             var departments = repo.GetDepartments();
+            SeeDepartments(departments);          
 
+        }
 
-            //make into method
+        public static void SeeDepartments(System.Collections.Generic.IEnumerable<Department> departments)
+        {
             foreach (var depo in departments)
             {
                 Console.WriteLine($"Department ID: {depo.DepartmentID}\tDepartment Name: {depo.Name}");
             }
-
         }
+
     }
 }
