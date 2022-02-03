@@ -19,9 +19,12 @@ namespace BestBuyCRUDDatabaseConsole
             IDbConnection conn = new MySqlConnection(connectionString);
             #endregion
 
-            var repo = new DepartmentRepository(conn);
-            var departments = repo.GetDepartments();
-            SeeDepartments(departments);          
+            Console.WriteLine("Welcome to the Best But Database! Would you like to see all departments and products?");
+            Console.WriteLine("Y/N?");
+            var answer = Console.ReadLine();
+            UserSelection(answer, conn);           
+            Console.ReadLine();
+            
 
         }
 
@@ -33,5 +36,35 @@ namespace BestBuyCRUDDatabaseConsole
             }
         }
 
+        public static void SeeProducts(System.Collections.Generic.IEnumerable<Products> products)
+        {
+            foreach (var prod in products)
+            {
+                Console.WriteLine($"{prod.ProductID}  {prod.Name} (Price:{prod.Price} || Stock:{prod.StockLevel})");
+                Console.WriteLine();
+            }
+        }
+        public static void UserSelection(string answer, IDbConnection conn)
+        {                   
+                if (answer.ToLower() == "y")
+                {
+                    var repoDepartments = new DepartmentRepository(conn);
+                    var departments = repoDepartments.GetDepartments();
+                    SeeDepartments(departments);
+
+                    var repoProducts = new ProductRepository(conn);
+                    var products = repoProducts.GetProducts();
+                    SeeProducts(products);
+                }
+                else if (answer.ToLower() == "n")
+                {
+                    Console.WriteLine("Fix this");
+                }
+                else
+                {
+                    Console.WriteLine("Please choose Y/N");
+                }
+            
+        }
     }
 }

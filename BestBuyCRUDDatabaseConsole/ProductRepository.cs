@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -27,7 +28,9 @@ namespace BestBuyCRUDDatabaseConsole
 
         public IEnumerable<Products> GetProducts()
         {
-            
+            List<Products> products = new List<Products>();
+            products = _conn.Query<Products>("SELECT * FROM products;").ToList();
+            return products;
         }
 
         public void UpdateProducts()
