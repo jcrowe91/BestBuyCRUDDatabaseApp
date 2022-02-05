@@ -19,15 +19,9 @@ namespace BestBuyCRUDDatabaseConsole
             IDbConnection conn = new MySqlConnection(connectionString);
             #endregion
 
-            Console.WriteLine("Welcome to the Best Buy Database! Would you like to continue and see all departments and products?");
-            Console.WriteLine("Y/N?");
-            var answer = Console.ReadLine();
-            IntroUserSelection(answer, conn);            
-            CreateProducts(conn);
-            Console.WriteLine("Would you like to see an updated list of departments and products?");
-            Console.WriteLine("Y/N?");
-            answer = Console.ReadLine();
-            IntroUserSelection(answer, conn);
+            Console.WriteLine("Welcome to the BestBuy database!");
+            Introduction(conn);
+            
             Console.ReadLine();
 
 
@@ -50,17 +44,44 @@ namespace BestBuyCRUDDatabaseConsole
                 Console.WriteLine();
             }
         }
+        public static void SeeEmployees(System.Collections.Generic.IEnumerable<Employee> employees)
+        {
+            foreach (var person in employees)
+            {
+                Console.WriteLine();
+            }
+        }
         public static void IntroUserSelection(string answer, IDbConnection conn)
         {
             if (answer.ToLower() == "y")
             {
-                var repoDepartments = new DepartmentRepository(conn);
-                var departments = repoDepartments.GetDepartments();
-                SeeDepartments(departments);
+                Console.WriteLine("Which table would you like to look at?");
+                Console.WriteLine("1. Departments\t2.Products\t3.Employees");
+                var table = Convert.ToInt32(Console.ReadLine());
 
-                var repoProducts = new ProductRepository(conn);
-                var products = repoProducts.GetProducts();
-                SeeProducts(products);
+                if (table == 1)
+                {
+                    var repoDepartments = new DepartmentRepository(conn);
+                    var departments = repoDepartments.GetDepartments();
+                    SeeDepartments(departments);
+                }
+                else if (table == 2)
+                {
+                    var repoProducts = new ProductRepository(conn);
+                    var products = repoProducts.GetProducts();
+                    SeeProducts(products);
+                }
+                else if (table == 3)
+                {
+                    var repoEmployees = new EmployeeRepository(conn);
+                    var employees = repoEmployees.GetEmployees();
+                    SeeEmployees(employees);
+                }
+                else
+                {
+                    Console.WriteLine("Please choose an availible answer. (PROGRAM WILL END)");
+                    Environment.Exit(0);
+                }
             }
             else if (answer.ToLower() == "n")
             {
@@ -88,6 +109,13 @@ namespace BestBuyCRUDDatabaseConsole
             var categoryID = Convert.ToInt32(Console.ReadLine());
 
             productsRepo.CreateProducts(createProduct, productPrice, categoryID);
+        }
+        public static void Introduction(IDbConnection conn)
+        {
+            Console.WriteLine("Would you like to choose a table to view?");
+            Console.WriteLine("Y/N?");
+            var answer = Console.ReadLine();
+            IntroUserSelection(answer, conn);
         }
     }
 }
