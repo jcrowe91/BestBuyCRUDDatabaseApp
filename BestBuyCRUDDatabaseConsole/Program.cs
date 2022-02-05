@@ -22,8 +22,7 @@ namespace BestBuyCRUDDatabaseConsole
             Console.WriteLine("Welcome to the Best Buy Database! Would you like to continue and see all departments and products?");
             Console.WriteLine("Y/N?");
             var answer = Console.ReadLine();
-            IntroUserSelection(answer, conn);
-            Console.ReadLine();
+            IntroUserSelection(answer, conn);            
             CreateProducts(conn);
 
 
