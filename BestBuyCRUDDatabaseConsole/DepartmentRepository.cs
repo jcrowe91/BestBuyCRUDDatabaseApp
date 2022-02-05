@@ -24,10 +24,13 @@ namespace BestBuyCRUDDatabaseConsole
         }
 
        
-        public void DeleteDepartment(string deleteDepartment)
+        public void DeleteDepartment(int departmentID)
         {
-            _conn.Execute($"DELETE FROM DEPARTMENTS WHERE Name = (@newDepartmentName)",
-                new { newDepartmentName = deleteDepartment });
+            _conn.Execute("DELETE FROM categories WHERE DepartmentID = @departmentID;",
+               new { departmentID = departmentID });
+
+            _conn.Execute("DELETE FROM departments WHERE DepartmentID = @departmentID;",
+               new { departmentID = departmentID });
         }
 
         

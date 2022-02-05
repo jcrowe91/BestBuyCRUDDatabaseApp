@@ -8,10 +8,10 @@ namespace BestBuyCRUDDatabaseConsole
 {
     class Employee
     {
-        int EmployeeID { get; set; }
-        string FirstName { get; set; }
-        string MiddleInitial { get; set; }
-        string LastName { get; set; }
-        string EmailAdress { get; set; }
+        public int EmployeeID { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleInitial { get; set; }
+        public string LastName { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

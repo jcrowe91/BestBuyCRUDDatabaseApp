@@ -7,6 +7,6 @@ namespace BestBuyCRUDDatabaseConsole
         IEnumerable<Department> GetDepartments();
         void CreateDepartment(string newDepartmentName);       
         void UpdateDepartment(string updateDepartment);
-        void DeleteDepartment(string deleteDepartment);
+        void DeleteDepartment(int departmentID);
     }
 }

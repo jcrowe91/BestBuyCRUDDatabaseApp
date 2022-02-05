@@ -7,7 +7,7 @@ namespace BestBuyCRUDDatabaseConsole
         IEnumerable<Products> GetProducts();
         void CreateProducts(string createProducts, decimal productPrice, int productCategory);
         void UpdateProducts(string updateProducts);
-        void DeleteProducts();
+        void DeleteProducts(int productID);
 
     }
 }

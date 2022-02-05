@@ -22,9 +22,16 @@ namespace BestBuyCRUDDatabaseConsole
                 new { createProducts = createProducts , productPrice = productPrice , productCategory = productCategory });
         }
 
-        public void DeleteProducts()
+        public void DeleteProducts(int productID)
         {
-            throw new NotImplementedException();
+            _conn.Execute("DELETE FROM reviews WHERE ProductID = @productID;",
+               new { productID = productID });
+
+            _conn.Execute("DELETE FROM sales WHERE ProductID = @productID;",
+               new { productID = productID });
+
+            _conn.Execute("DELETE FROM products WHERE ProductID = @productID;",
+               new { productID = productID });
         }
 
         public IEnumerable<Products> GetProducts()
