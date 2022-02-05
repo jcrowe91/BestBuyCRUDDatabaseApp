@@ -19,14 +19,16 @@ namespace BestBuyCRUDDatabaseConsole
             IDbConnection conn = new MySqlConnection(connectionString);
             #endregion
 
-            Console.WriteLine("Welcome to the Best But Database! Would you like to see all departments and products?");
+            Console.WriteLine("Welcome to the Best Buy Database! Would you like to continue and see all departments and products?");
             Console.WriteLine("Y/N?");
             var answer = Console.ReadLine();
-            UserSelection(answer, conn);           
+            IntroUserSelection(answer, conn);
             Console.ReadLine();
-            
+            CreateProducts(conn);
+
 
         }
+
 
         public static void SeeDepartments(System.Collections.Generic.IEnumerable<Department> departments)
         {
@@ -44,27 +46,42 @@ namespace BestBuyCRUDDatabaseConsole
                 Console.WriteLine();
             }
         }
-        public static void UserSelection(string answer, IDbConnection conn)
-        {                   
-                if (answer.ToLower() == "y")
-                {
-                    var repoDepartments = new DepartmentRepository(conn);
-                    var departments = repoDepartments.GetDepartments();
-                    SeeDepartments(departments);
+        public static void IntroUserSelection(string answer, IDbConnection conn)
+        {
+            if (answer.ToLower() == "y")
+            {
+                var repoDepartments = new DepartmentRepository(conn);
+                var departments = repoDepartments.GetDepartments();
+                SeeDepartments(departments);
 
-                    var repoProducts = new ProductRepository(conn);
-                    var products = repoProducts.GetProducts();
-                    SeeProducts(products);
-                }
-                else if (answer.ToLower() == "n")
-                {
-                    Console.WriteLine("Fix this");
-                }
-                else
-                {
-                    Console.WriteLine("Please choose Y/N");
-                }
-            
+                var repoProducts = new ProductRepository(conn);
+                var products = repoProducts.GetProducts();
+                SeeProducts(products);
+            }
+            else if (answer.ToLower() == "n")
+            {
+                Console.WriteLine("Thank You! (PROGRAM WILL END)");
+            }
+            else
+            {
+                Console.WriteLine("Please choose Y/N (PROGRAM WILL END)");
+            }
+
+        }
+        public static void CreateProducts(IDbConnection conn)
+        {
+            var productsRepo = new ProductRepository(conn);
+
+            Console.WriteLine($"What product would you like to add?");
+            var createProduct = Console.ReadLine();
+
+            Console.WriteLine("What would you like the price to be?");
+            var productPrice = Convert.ToDouble(Console.ReadLine());
+
+            Console.WriteLine($"What would you like to set as the Category ID?");
+            var categoryID = Convert.ToInt32(Console.ReadLine());
+
+            productsRepo.CreateProducts(createProduct, productPrice, categoryID);
         }
     }
 }

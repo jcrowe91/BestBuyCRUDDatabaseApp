@@ -16,9 +16,10 @@ namespace BestBuyCRUDDatabaseConsole
             _conn = conn;
         }
 
-        public void CreateProducts()
+        public void CreateProducts(string createProducts, double productPrice, int productCategory)
         {
-            throw new NotImplementedException();
+            _conn.Execute("INSERT INTO products (Name, Price, CategoryID) VALUES ('@createProducts' , '@productPrice' , '@productCategory');",
+                new { createProducts = createProducts , productPrice = productPrice , productCategory = productCategory });
         }
 
         public void DeleteProducts()
@@ -33,9 +34,10 @@ namespace BestBuyCRUDDatabaseConsole
             return products;
         }
 
-        public void UpdateProducts()
+        public void UpdateProducts(string updateProducts)
         {
-            throw new NotImplementedException();
+            _conn.Execute("UPDATE products SET Name = (@updateProducts);",
+                new { updateProducts = updateProducts });
         }
     }
 }
