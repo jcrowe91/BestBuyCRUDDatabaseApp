@@ -24,6 +24,11 @@ namespace BestBuyCRUDDatabaseConsole
             var answer = Console.ReadLine();
             IntroUserSelection(answer, conn);            
             CreateProducts(conn);
+            Console.WriteLine("Would you like to see an updated list of departments and products?");
+            Console.WriteLine("Y/N?");
+            answer = Console.ReadLine();
+            IntroUserSelection(answer, conn);
+            Console.ReadLine();
 
 
         }
@@ -41,7 +46,7 @@ namespace BestBuyCRUDDatabaseConsole
         {
             foreach (var prod in products)
             {
-                Console.WriteLine($"{prod.ProductID}  {prod.Name} (Price:{prod.Price} || Stock:{prod.StockLevel})");
+                Console.WriteLine($"{prod.ProductID}  {prod.Name} (Price:{prod.Price} || Stock:{prod.StockLevel} || CategoryID {prod.CategoryID})");
                 Console.WriteLine();
             }
         }
@@ -60,10 +65,12 @@ namespace BestBuyCRUDDatabaseConsole
             else if (answer.ToLower() == "n")
             {
                 Console.WriteLine("Thank You! (PROGRAM WILL END)");
+                Environment.Exit(0);
             }
             else
             {
                 Console.WriteLine("Please choose Y/N (PROGRAM WILL END)");
+                Environment.Exit(0);
             }
 
         }
@@ -75,7 +82,7 @@ namespace BestBuyCRUDDatabaseConsole
             var createProduct = Console.ReadLine();
 
             Console.WriteLine("What would you like the price to be?");
-            var productPrice = Convert.ToDouble(Console.ReadLine());
+            var productPrice = Convert.ToDecimal(Console.ReadLine());
 
             Console.WriteLine($"What would you like to set as the Category ID?");
             var categoryID = Convert.ToInt32(Console.ReadLine());

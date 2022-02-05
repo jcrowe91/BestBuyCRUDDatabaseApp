@@ -16,9 +16,9 @@ namespace BestBuyCRUDDatabaseConsole
             _conn = conn;
         }
 
-        public void CreateProducts(string createProducts, double productPrice, int productCategory)
+        public void CreateProducts(string createProducts, decimal productPrice, int productCategory)
         {
-            _conn.Execute("INSERT INTO products (Name, Price, CategoryID) VALUES ('@createProducts' , '@productPrice' , '@productCategory');",
+            _conn.Execute("INSERT INTO products (Name, Price, CategoryID) VALUES (@createProducts , @productPrice , @productCategory);",
                 new { createProducts = createProducts , productPrice = productPrice , productCategory = productCategory });
         }
 
