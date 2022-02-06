@@ -8,6 +8,7 @@ namespace BestBuyCRUDDatabaseConsole
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
             #region ConnectionSetup
@@ -18,13 +19,108 @@ namespace BestBuyCRUDDatabaseConsole
             var connectionString = config.GetConnectionString("DefaultConnection");
             IDbConnection conn = new MySqlConnection(connectionString);
             #endregion
-
+            
             Console.WriteLine("Welcome to the BestBuy database!");
             Introduction(conn);
             CRUD(conn);
-            Console.ReadLine();
+            IntroUserSelection("y", conn);
 
 
+        }
+        public static void Introduction(IDbConnection conn)
+        {
+            Console.WriteLine("Would you like to choose a table to view?");
+            Console.WriteLine("Y/N?");
+            var answer = Console.ReadLine();
+            IntroUserSelection(answer, conn);
+        }
+        public static void IntroUserSelection(string answer, IDbConnection conn)
+        {
+            if (answer.ToLower() == "y")
+            {
+                Console.WriteLine("Which table would you like to look at?");
+                Console.WriteLine("1.Departments    2.Products    3.Employees    4.Exit Program");
+                var table = Convert.ToInt32(Console.ReadLine());
+
+                if (table == 1)
+                {
+                    var repoDepartments = new DepartmentRepository(conn);
+                    var departments = repoDepartments.GetDepartments();
+                    SeeDepartments(departments);
+                }
+                else if (table == 2)
+                {
+                    var repoProducts = new ProductRepository(conn);
+                    var products = repoProducts.GetProducts();
+                    SeeProducts(products);
+                }
+                else if (table == 3)
+                {
+                    var repoEmployees = new EmployeeRepository(conn);
+                    var employees = repoEmployees.GetEmployees();
+                    SeeEmployees(employees);
+                }
+                else if (table == 4)
+                {
+                    Console.WriteLine("Thanks for viewing!");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.WriteLine("Please choose an availible answer. (PROGRAM WILL END)");
+                    Environment.Exit(0);
+                }
+            }
+            else if (answer.ToLower() == "n")
+            {
+                Console.WriteLine("Alright. Moving on...");
+            }
+            else
+            {
+                Console.WriteLine("Please choose Y/N (PROGRAM WILL END)");
+                Environment.Exit(0);
+            }
+        }
+        public static void CRUD(IDbConnection conn)
+        {
+            Console.WriteLine("Would you like to create, update or delete an entry in a table?");
+            Console.WriteLine("1.Create    2.Update    3.Delete    4.View another Department    5.Exit Program");
+            var userChoice = Convert.ToInt32(Console.ReadLine());
+            if (userChoice == 1)
+            {
+                Console.WriteLine("Which table would you like to create in?");
+                Console.WriteLine("1.Departments    2.Products    3.Employees");
+                var userCreate = Convert.ToInt32(Console.ReadLine());
+                UserCreate(userCreate, conn);
+            }
+            else if (userChoice == 2)
+            {
+                Console.WriteLine("Which table would you like to update?");
+                Console.WriteLine("1.Departments    2.Products    3.Employees");
+                var userUpdate = Convert.ToInt32(Console.ReadLine());
+                UserUpdate(userUpdate, conn);
+            }
+            else if (userChoice == 3)
+            {
+                Console.WriteLine("Which table would you like to delete from?");
+                Console.WriteLine("1.Departments    2.Products    3.Employees");
+                var userDelete = Convert.ToInt32(Console.ReadLine());
+                UserDelete(userDelete, conn);
+            }
+            else if (userChoice == 4)
+            {
+                Introduction(conn);
+            }
+            else if (userChoice == 5)
+            {
+                Console.WriteLine("Have a great day!");
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.WriteLine("Please choose an availible response. (PROGRAM WILL END)");
+                Environment.Exit(0);
+            }
         }
         public static void UserCreate(int userCreate, IDbConnection conn)
         {
@@ -170,96 +266,6 @@ namespace BestBuyCRUDDatabaseConsole
             foreach (var person in employees)
             {
                 Console.WriteLine($"{person.EmployeeID} {person.FirstName} {person.MiddleInitial} {person.LastName} \tEmail: {person.EmailAddress}");
-            }
-        }
-        public static void IntroUserSelection(string answer, IDbConnection conn)
-        {
-            if (answer.ToLower() == "y")
-            {
-                Console.WriteLine("Which table would you like to look at?");
-                Console.WriteLine("1.Departments    2.Products    3.Employees");
-                var table = Convert.ToInt32(Console.ReadLine());
-
-                if (table == 1)
-                {
-                    var repoDepartments = new DepartmentRepository(conn);
-                    var departments = repoDepartments.GetDepartments();
-                    SeeDepartments(departments);
-                }
-                else if (table == 2)
-                {
-                    var repoProducts = new ProductRepository(conn);
-                    var products = repoProducts.GetProducts();
-                    SeeProducts(products);
-                }
-                else if (table == 3)
-                {
-                    var repoEmployees = new EmployeeRepository(conn);
-                    var employees = repoEmployees.GetEmployees();
-                    SeeEmployees(employees);
-                }
-                else
-                {
-                    Console.WriteLine("Please choose an availible answer. (PROGRAM WILL END)");
-                    Environment.Exit(0);
-                }
-            }
-            else if (answer.ToLower() == "n")
-            {
-                Console.WriteLine("Thank You! (PROGRAM WILL END)");
-                Environment.Exit(0);
-            }
-            else
-            {
-                Console.WriteLine("Please choose Y/N (PROGRAM WILL END)");
-                Environment.Exit(0);
-            }
-        }               
-        public static void Introduction(IDbConnection conn)
-        {
-            Console.WriteLine("Would you like to choose a table to view?");
-            Console.WriteLine("Y/N?");
-            var answer = Console.ReadLine();
-            IntroUserSelection(answer, conn);
-        }
-        public static void CRUD(IDbConnection conn)
-        {
-            Console.WriteLine("Would you like to create, update or delete an entry in a table?");
-            Console.WriteLine("1.Create    2.Update    3.Delete    4.View another Department    5.Exit Program");
-            var userChoice = Convert.ToInt32(Console.ReadLine());
-            if (userChoice == 1)
-            {
-                Console.WriteLine("Which table would you like to create in?");
-                Console.WriteLine("1.Departments    2.Products    3.Employees");
-                var userCreate = Convert.ToInt32(Console.ReadLine());
-                UserCreate(userCreate, conn);
-            }
-            else if (userChoice == 2)
-            {
-                Console.WriteLine("Which table would you like to update?");
-                Console.WriteLine("1.Departments    2.Products    3.Employees");
-                var userUpdate = Convert.ToInt32(Console.ReadLine());
-                UserUpdate(userUpdate, conn);
-            }
-            else if (userChoice == 3)
-            {
-                Console.WriteLine("Which table would you like to delete from?");
-                Console.WriteLine("1.Departments    2.Products    3.Employees");
-                var userDelete = Convert.ToInt32(Console.ReadLine());
-            }
-            else if (userChoice == 4)
-            {
-                Introduction(conn);
-            }
-            else if (userChoice == 5)
-            {
-                Console.WriteLine("Have a great day!");
-                Environment.Exit(0);
-            }
-            else
-            {
-                Console.WriteLine("Please choose an availible response. (PROGRAM WILL END)");
-                Environment.Exit(0);
             }
         }
     }
