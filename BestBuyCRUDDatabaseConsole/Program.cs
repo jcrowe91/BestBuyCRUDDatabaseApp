@@ -22,9 +22,11 @@ namespace BestBuyCRUDDatabaseConsole
             
             Console.WriteLine("Welcome to the BestBuy database!");
             Introduction(conn);
-            CRUD(conn);
-            IntroUserSelection("y", conn);
-
+            while (true)
+            {
+                CRUD(conn);
+                IntroUserSelection("y", conn);
+            }
 
         }
         public static void Introduction(IDbConnection conn)
@@ -226,15 +228,15 @@ namespace BestBuyCRUDDatabaseConsole
 
                 Console.WriteLine("What department ID would you like to delete?");
                 var deleteDepoID = Convert.ToInt32(Console.ReadLine());
-                departmentRepo.DeleteDepartment(userDelete);
+                departmentRepo.DeleteDepartment(deleteDepoID);
             }
             else if (userDelete == 2)
             {
                 var productsRepo = new ProductRepository(conn);
 
                 Console.WriteLine($"What product ID would you like to delete?");
-                var deleteProduct = Convert.ToInt32(Console.ReadLine());
-                productsRepo.DeleteProducts(userDelete);
+                var productID = Convert.ToInt32(Console.ReadLine());
+                productsRepo.DeleteProducts(productID);
             }
             else if (userDelete == 3)
             {
