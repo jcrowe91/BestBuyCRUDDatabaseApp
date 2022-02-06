@@ -79,15 +79,76 @@ namespace BestBuyCRUDDatabaseConsole
             if (userUpdate == 1)
             {
                 var departmentRepo = new DepartmentRepository(conn);
+
+                Console.WriteLine("What department would you like to update?");
+                var newDepartmentName = Console.ReadLine();
+
+                departmentRepo.UpdateDepartment(newDepartmentName);
             }
             else if (userUpdate == 2)
             {
                 var productsRepo = new ProductRepository(conn);
+
+                Console.WriteLine($"What product would you like to update?");
+                var updateProduct = Console.ReadLine();
+
+                Console.WriteLine("What would you like the new price to be?");
+                var productPrice = Convert.ToDecimal(Console.ReadLine());
+
+                Console.WriteLine($"What would you like to set as the new Category ID?");
+                var categoryID = Convert.ToInt32(Console.ReadLine());
+
+                productsRepo.UpdateProducts(updateProduct, productPrice, categoryID);
             }
             else if (userUpdate == 3)
             {
                 var empRepo = new EmployeeRepository(conn);
+
+                Console.WriteLine("What EmployeeID would you like to update?");
+                var empID = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("What is the Employee's first name?");
+                var firstName = Console.ReadLine();
+
+                Console.WriteLine("What's the Employee's middle initial? Press ENTER for none.");
+                var middleInitial = Console.ReadLine();
+
+                Console.WriteLine("What's the Employee's last name?");
+                var lastName = Console.ReadLine();
+
+                Console.WriteLine("What's a good email for the Employee?");
+                var email = Console.ReadLine();
+
+                empRepo.UpdateEmployee(empID, firstName, middleInitial, lastName, email);
             }
+        }
+        public static void UserDelete(int userDelete, IDbConnection conn)
+        {
+            if (userDelete == 1)
+            {
+                var departmentRepo = new DepartmentRepository(conn);
+
+                Console.WriteLine("What department ID would you like to delete?");
+                var deleteDepoID = Convert.ToInt32(Console.ReadLine());
+                departmentRepo.DeleteDepartment(userDelete);
+            }
+            else if (userDelete == 2)
+            {
+                var productsRepo = new ProductRepository(conn);
+
+                Console.WriteLine($"What product ID would you like to delete?");
+                var deleteProduct = Convert.ToInt32(Console.ReadLine());
+                productsRepo.DeleteProducts(userDelete);
+            }
+            else if (userDelete == 3)
+            {
+                var empRepo = new EmployeeRepository(conn);
+
+                Console.WriteLine("What EmployeeID would you like to delete?");
+                var empID = Convert.ToInt32(Console.ReadLine());
+                empRepo.DeleteEmployee(empID);
+            }
+
         }
         public static void SeeDepartments(System.Collections.Generic.IEnumerable<Department> departments)
         {

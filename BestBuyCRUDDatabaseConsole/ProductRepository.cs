@@ -41,10 +41,10 @@ namespace BestBuyCRUDDatabaseConsole
             return products;
         }
 
-        public void UpdateProducts(string updateProducts)
+        public void UpdateProducts(string updateProducts, decimal updatePrice, int updateCatID)
         {
-            _conn.Execute("UPDATE products SET Name = (@updateProducts);",
-                new { updateProducts = updateProducts });
+            _conn.Execute("UPDATE products SET Name, Price, CategoryID = (@updateProducts , @updatePrice, @updateCatID);",
+                new { updateProducts = updateProducts , updatePrice = updatePrice , updateCatID = updateCatID});
         }
     }
 }
